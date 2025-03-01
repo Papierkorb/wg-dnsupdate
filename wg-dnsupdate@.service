@@ -1,0 +1,17 @@
+[Unit]
+Description=Updates endpoints of DNS peers in %I
+After=network.target wg-quick@%I.service
+
+[Service]
+Type=simple
+ExecStart=/opt/wg-dnsupdate/wg-dnsupdate.sh %I $DNS
+Restart=on-failure
+# Run as root because we need to be able to interact with wg
+User=root
+
+# You can change the DNS resolver using "systemctl edit wg-dnsupdate@.service"
+# Unset to use your systems default DNS. Beware if that DNS is using a VPN'd IP which may not be accessible!
+Environment=DNS=1.1.1.1
+
+[Install]
+WantedBy=multi-user.target
