@@ -83,6 +83,7 @@ while true; do
       if [ "$Ip" != "${DomainAddresses[$i]}" ]; then
         if [ $FirstRun = 1 ]; then
           echo "Initial IP of domain $i is $Ip (TTL of this domain is $Ttl seconds)"
+          FirstRun=0
         else
           echo "Domain $i has changed IP from ${DomainAddresses[$i]} to $Ip"
           wg set "$Interface" peer "${DomainPeers[$i]}" endpoint "${Ip}:${DomainPorts[$i]}"
